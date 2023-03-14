@@ -48,7 +48,8 @@ in
       element-desktop
       baobab # Disk usage analyzer
       gimp
-      gnome.gpaste
+      # gnome.gpaste
+      # gnomeExtensions.pano libgda gsound
       libreoffice-still
       openssh
       rapid-photo-downloader
