@@ -24,7 +24,7 @@ in
       };
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       	binding = "<Super>t";
-      	command = "kitty -e tmux";
+      	command = "alacritty";
       	name = "Terminal";
       };
       "org/gnome/desktop/wm/keybindings" = {
@@ -42,7 +42,43 @@ in
       kitty
       tmux
       google-chrome
+      firefox
       gnome.dconf-editor
+      bitwarden
+      element-desktop
+      baobab # Disk usage analyzer
+      gimp
+      gnome.gpaste
+      libreoffice-still
+      openssh
+      rapid-photo-downloader
+      rustup
+      solaar
+      thunderbird-bin
+      tree
+      roboto
+      which
+      xsane
     ];
+
+    # Configure zsh
+    programs.zsh = {
+      enable = true;
+      enableCompletion = true;
+      enableAutosuggestions = true;
+      shellAliases = {
+        ll = "ls -l";
+        update = "sudo nixos-rebuild switch";
+      };
+      history = {
+        size = 10000;
+        # path = "${config.xdg.dataHome}/zsh/history";
+      };
+      oh-my-zsh = {
+  	    enable = true;
+  	    plugins = [ "git" ];
+  	    theme = "robbyrussell";
+  	  };
+    };
   };
 }

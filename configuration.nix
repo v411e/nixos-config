@@ -34,7 +34,16 @@
   # List packages installed in system profile. To search, run:
   # \$ nix search wget
   environment.systemPackages = with pkgs; [
-    wget vim git micro gnomeExtensions.appindicator
+    wget
+    curl
+    vim
+    git
+    micro
+    alacritty
+    htop
+    gnomeExtensions.appindicator
+    neofetch
+    rsync
   ];
   
   # Enable the OpenSSH daemon.
@@ -66,4 +75,8 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+
+  # Set default shell to zsh
+  users.defaultUserShell = pkgs.zsh;
+  environment.shells = with pkgs; [ zsh ];
 }
