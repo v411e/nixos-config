@@ -8,14 +8,44 @@ in
   ];
 
   home-manager.users.demo = { lib, ... }: {
-    /* The home.stateVersion option does not have a default and must be set */
+    # The home.stateVersion option does not have a default and must be set
     home.stateVersion = "18.09";
-    /* Here goes the rest of your home-manager config, e.g. home.packages = [ pkgs.foo ]; */
+
+    # Installed packages
+    home.packages = with pkgs; [ 
+      micro # Terminal editor
+      vscode-with-extensions
+      tmux # Terminal multiplexer
+      google-chrome
+      firefox
+      gnome.dconf-editor # Dconf editor for dconf debugging
+      bitwarden # Password manager
+      element-desktop # Matrix client
+      baobab # Disk usage analyzer
+      gimp # Image manipulation
+      unstable.gnomeExtensions.pano libgda gsound # Clipboard History
+      libreoffice-still
+      openssh
+      rapid-photo-downloader # Photo importer
+      rustup # Rust
+      solaar # Logitech unified device GUI
+      spotify
+      thunderbird-bin
+      tree # CLI directory structure visualization
+      roboto # Roboto font
+      which
+      xsane # Scanning utility
+    ];
+
+    # GNOME settings
     dconf.settings = with lib.hm.gvariant; {
+      # Set german keyboard layout in GNOME
       "org/gnome/desktop/input-sources" = {
         show-all-sources = true;
-        sources = [ (mkTuple [ "xkb" "de" ]) (mkTuple [ "xkb" "de+nodeadkeys" ]) ];
+        sources = [ (mkTuple [ "xkb" "de+nodeadkeys" ]) ];
       };
+
+      # Custom keybindings
       "org/gnome/settings-daemon/plugins/media-keys" = {
         custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
         email = [ "<Super>e" ];
@@ -35,32 +65,32 @@ in
         switch-windows = [ "<Super>Tab" ];
         switch-windows-backward = [ "<Shift><Super>Tab" ];
       };
+      # Other custom GNOME settings
+      "org/gnome/desktop/interface" = {
+      	clock-show-weekday = true;
+      	cursor-size = 48;
+      	enable-animations = false;
+      	show-battery-percentage = true;
+      };
+      "org/gnome/desktop/notifications" = {
+      	show-in-lock-screen = false;
+      };
+      "org/gnome/desktop/peripherals/touchpad" = {
+        speed = 0.5;
+      	tap-to-click = true;
+      };
+      "org/gnome/desktop/privacy" = {
+      	old-files-age= mkUint32(30);
+      	remove-old-temp-files = true;
+      	remove-old-trash-files = true;
+      };
+      "org/gnome/desktop/wm/preferences" = {
+      	button-layout = "appmenu:minimize,close";
+      };
+      "system/locale" = {
+      	region = "de_DE.UTF-8";
+      };
     };
-    home.packages = with pkgs; [ 
-      micro
-      vscode-with-extensions
-      kitty
-      tmux
-      google-chrome
-      firefox
-      gnome.dconf-editor
-      bitwarden
-      element-desktop
-      baobab # Disk usage analyzer
-      gimp
-      # gnome.gpaste
-      # gnomeExtensions.pano libgda gsound
-      libreoffice-still
-      openssh
-      rapid-photo-downloader
-      rustup
-      solaar
-      thunderbird-bin
-      tree
-      roboto
-      which
-      xsane
-    ];
 
     # Configure zsh
     programs.zsh = {
@@ -70,6 +100,7 @@ in
       shellAliases = {
         ll = "ls -l";
         update = "sudo nixos-rebuild switch";
+        update-git = "cd /etc/nixos/; sudo git add .; sudo git commit -m 'update config'; sudo git push;";
       };
       history = {
         size = 10000;

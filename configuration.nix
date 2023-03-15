@@ -1,12 +1,17 @@
 { config, pkgs, lib, ... }:
 
-  {
-    imports = [
-      <nixpkgs/nixos/modules/installer/virtualbox-demo.nix>
-      ./home.nix
+let
+  unstableTarball =
+    fetchTarball
+      https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
+in
+{
+  imports = [
+    <nixpkgs/nixos/modules/installer/virtualbox-demo.nix>
+    ./home.nix
   ];
   
-    # Let demo build as a trusted user.
+  # Let demo build as a trusted user.
   # nix.settings.trusted-users = [ "demo" ];
   
   # Mount a VirtualBox shared folder.
@@ -58,14 +63,21 @@
     xkbVariant = "nodeadkeys,";
   };
 
-  # Enable unfree packages for vscode
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    # Enable unstable channel as rolling release
+    packageOverrides = pkgs: {
+      unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+      };
+    };
+    # Enable unfree packages for vscode
+    allowUnfree = true;
+  };
 
-  # Use X11 instead of wayland
+  # Use X11 instead of wayland (needed for virtualbox)
   services.xserver.displayManager.gdm.wayland = false;
 
-  # Gnome Extension for systray icons
-  # environment.systemPackages = with pkgs; [ gnomeExtensions.appindicator ];
+  # GNOME Extension for systray icons
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Save storage
