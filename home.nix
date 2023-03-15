@@ -24,6 +24,12 @@ in
       baobab # Disk usage analyzer
       gimp # Image manipulation
       unstable.gnomeExtensions.pano libgda gsound # Clipboard History
+      unstable.gnomeExtensions.coverflow-alt-tab # Beautiful Alt-Tab
+      unstable.gnomeExtensions.bluetooth-quick-connect # Bluetooth Quick-Connect Tile
+      unstable.gnomeExtensions.espresso # Keep display on
+      unstable.gnomeExtensions.removable-drive-menu # Add removable drive menu
+      unstable.gnomeExtensions.vitals # CPU, Memory, Disk stats
+      unstable.gnomeExtensions.x11-gestures # X11 touchpad gestures
       libreoffice-still
       openssh
       rapid-photo-downloader # Photo importer
@@ -89,6 +95,26 @@ in
       };
       "system/locale" = {
       	region = "de_DE.UTF-8";
+      };
+      "org/gnome/shell" = {
+      	enabled-extensions = [
+      	  "pano@elhan.io"
+      	  "espresso@coadmunkee.github.com"
+      	  "Vitals@CoreCoding.com"
+      	  "CoverflowAltTab@palatis.blogspot.com"
+      	  "drive-menu@gnome-shell-extensions.gcampax.github.com"
+      	];
+      	disabled-extensions = [
+      	  "x11gestures@joseexposito.github.io"
+      	  "bluetooth-quick-connect@bjarosze.gmail.com"
+      	];
+      	favorite-apps = [
+      	  "org.gnome.Nautilus.desktop"
+      	  "code.desktop"
+      	  "google-chrome.desktop"
+      	  "Alacritty.desktop"
+      	  "element-desktop.desktop"
+      	];
       };
     };
 
