@@ -1,18 +1,18 @@
 { config, pkgs, ... }:
 let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-22.11.tar.gz";
 in
 {
   imports = [
     (import "${home-manager}/nixos")
   ];
 
-  home-manager.users.demo = { lib, ... }: {
+  home-manager.users.vriess = { lib, ... }: {
     # The home.stateVersion option does not have a default and must be set
-    home.stateVersion = "18.09";
+    home.stateVersion = "22.11";
 
     # Installed packages
-    home.packages = with pkgs; [ 
+    home.packages = with pkgs; [
       micro # Terminal editor
       vscode-with-extensions
       tmux # Terminal multiplexer
