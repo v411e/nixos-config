@@ -160,6 +160,7 @@ in
   # Set default shell to zsh
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
+  programs.zsh.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

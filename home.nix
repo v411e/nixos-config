@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-22.11.tar.gz";
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
 in
 {
   imports = [
@@ -14,7 +14,8 @@ in
     # Installed packages
     home.packages = with pkgs; [ 
       micro # Terminal editor
-      vscode-with-extensions
+      # unstable.vscode-with-extensions
+      vscode-fhs # this works better with nix and extensions
       tmux # Terminal multiplexer
       # google-chrome
       firefox
@@ -25,13 +26,13 @@ in
       gimp # Image manipulation
       inkscape # vector image manipulation
       nixfmt # Nix formatter
-      unstable.gnomeExtensions.pano libgda gsound # Clipboard History
+      # gnome.gpaste # Clipboard # History, does not work atm
+      unstable.gnomeExtensions.pano unstable.libgda unstable.gsound # Clipboard History
       unstable.gnomeExtensions.coverflow-alt-tab # Beautiful Alt-Tab
-      unstable.gnomeExtensions.bluetooth-quick-connect # Bluetooth Quick-Connect Tile
       unstable.gnomeExtensions.espresso # Keep display on
-      unstable.gnomeExtensions.removable-drive-menu # Add removable drive menu
+      gnomeExtensions.removable-drive-menu # Add removable drive menu
       unstable.gnomeExtensions.vitals # CPU, Memory, Disk stats
-      unstable.gnomeExtensions.x11-gestures # X11 touchpad gestures
+      # unstable.gnomeExtensions.x11-gestures # X11 touchpad gestures
       libreoffice-still
       openssh
       rapid-photo-downloader # Photo importer
@@ -135,8 +136,10 @@ in
       enableAutosuggestions = true;
       shellAliases = {
         ll = "ls -l";
-        update = "sudo nixos-rebuild switch";
-        update-git = "cd /etc/nixos/; sudo git add .; sudo git commit -m 'update config'; sudo git push;";
+        nupdate = "sudo nixos-rebuild switch";
+        nupdate-git = "cd /etc/nixos/; sudo git add .; sudo git commit -m 'update config'; sudo git push;";
+        nupdate-test = "sudo nixos-rebuild test";
+        nupgrade = "sudo nixos-rebuild switch --upgrade";
       };
       history = {
         size = 10000;
