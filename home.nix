@@ -12,17 +12,19 @@ in
     home.stateVersion = "22.11";
 
     # Installed packages
-    home.packages = with pkgs; [
+    home.packages = with pkgs; [ 
       micro # Terminal editor
       vscode-with-extensions
       tmux # Terminal multiplexer
-      google-chrome
+      # google-chrome
       firefox
       gnome.dconf-editor # Dconf editor for dconf debugging
       bitwarden # Password manager
       element-desktop # Matrix client
       baobab # Disk usage analyzer
       gimp # Image manipulation
+      inkscape # vector image manipulation
+      nixfmt # Nix formatter
       unstable.gnomeExtensions.pano libgda gsound # Clipboard History
       unstable.gnomeExtensions.coverflow-alt-tab # Beautiful Alt-Tab
       unstable.gnomeExtensions.bluetooth-quick-connect # Bluetooth Quick-Connect Tile
@@ -34,6 +36,7 @@ in
       openssh
       rapid-photo-downloader # Photo importer
       rustup # Rust
+      rnix-lsp # Nix language server (auto-formatting, etc.)
       solaar # Logitech unified device GUI
       spotify
       thunderbird-bin
@@ -41,6 +44,7 @@ in
       roboto # Roboto font
       which
       xsane # Scanning utility
+      zotero # Bibliography and references tool
     ];
 
     # GNOME settings
@@ -111,9 +115,15 @@ in
       	favorite-apps = [
       	  "org.gnome.Nautilus.desktop"
       	  "code.desktop"
-      	  "google-chrome.desktop"
+      	  "firefox.desktop"
       	  "Alacritty.desktop"
       	  "element-desktop.desktop"
+      	];
+      };
+      # Enable fractional scaling
+      "org/gnome/mutter" = {
+      	experimental-features = [
+      	  "scale-monitor-framebuffer"
       	];
       };
     };
@@ -137,6 +147,13 @@ in
   	    plugins = [ "git" ];
   	    theme = "robbyrussell";
   	  };
+    };
+
+    # Configure git
+    programs.git = {
+      enable = true;
+      userName = (builtins.readFile ./nixos-config-private/home-manager_users_vriess_programs_git_userName);
+      userEmail = (builtins.readFile ./nixos-config-private/home-manager_users_vriess_programs_git_userEmail);
     };
   };
 }

@@ -12,7 +12,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
       ./home.nix
     ];
 
@@ -29,6 +29,9 @@ in
   # Enable swap on luks
   boot.initrd.luks.devices."luks-1dbda026-dd09-4abc-8a83-f0a5591074a3".device = "/dev/disk/by-uuid/1dbda026-dd09-4abc-8a83-f0a5591074a3";
   boot.initrd.luks.devices."luks-1dbda026-dd09-4abc-8a83-f0a5591074a3".keyFile = "/crypto_keyfile.bin";
+
+  # Use latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -97,10 +100,14 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # Enable tlp for power saving
+  services.tlp.enable = true;
+  services.power-profiles-daemon.enable = false;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vriess = {
     isNormalUser = true;
-    description = "Valentin RIess";
+    description = "Valentin Riess";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       firefox
@@ -124,6 +131,8 @@ in
     gnomeExtensions.appindicator
     neofetch
     rsync
+    zip
+    unzip
   ];
 
   nixpkgs.config = {
@@ -178,5 +187,9 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
+
+  # Set different path that alllows for easy edits using vscode
+  # original: nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels
+  nix.nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/home/vriess/nixos-config/configuration.nix:/nix/var/nix/profiles/per-user/root/channels" ];
 
 }
