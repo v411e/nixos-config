@@ -46,6 +46,8 @@ in
       which
       xsane # Scanning utility
       zotero # Bibliography and references tool
+      eternal-terminal # Terminal for unstableconnections
+      wireguard-tools # Wireguard tools - wg and wg-quick
     ];
 
     # GNOME settings
@@ -53,7 +55,8 @@ in
       # Set german keyboard layout in GNOME
       "org/gnome/desktop/input-sources" = {
         show-all-sources = true;
-        sources = [ (mkTuple [ "xkb" "de+nodeadkeys" ]) ];
+        # sources = [ (mkTuple [ "xkb" "de+nodeadkeys" ]) ]; # nodeadkeys does not easy input of allow french accents
+        sources = [ (mkTuple [ "xkb" "de" ]) ];
       };
 
       # Custom keybindings
