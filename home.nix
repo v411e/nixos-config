@@ -17,6 +17,7 @@ in
       # unstable.vscode-with-extensions
       vscode-fhs # this works better with nix and extensions
       tmux # Terminal multiplexer
+      deno # JS and TS runtime
       # google-chrome
       firefox
       gnome.dconf-editor # Dconf editor for dconf debugging
@@ -131,6 +132,10 @@ in
       	];
       };
     };
+
+    home.sessionPath = [
+      "/home/vriess/.deno/bin"
+    ];
 
     # Configure zsh
     programs.zsh = {
