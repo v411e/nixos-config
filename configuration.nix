@@ -32,6 +32,8 @@ in
 
   # Use latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_6_3;
+
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -115,6 +117,15 @@ in
     ];
   };
 
+  users.users.alodahl = {
+    isNormalUser = true;
+    description = (builtins.readFile ./nixos-config-private/users_users_alodahl_description);
+    extraGroups = [ "networkmanager" ];
+    packages = with pkgs; [
+      firefox
+    ];
+  };
+
   # Allow unfree packages
   # nixpkgs.config.allowUnfree = true;
 
@@ -133,6 +144,7 @@ in
     rsync
     zip
     unzip
+    cifs-utils
   ];
 
   nixpkgs.config = {
@@ -192,5 +204,17 @@ in
   # Set different path that alllows for easy edits using vscode
   # original: nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels
   nix.nixPath = [ "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/home/vriess/nixos-config/configuration.nix:/nix/var/nix/profiles/per-user/root/channels" ];
+
+  # Mount NAS
+  fileSystems."/mnt/nas" = {
+      device = (builtins.readFile ./nixos-config-private/fileSystems_NAS_device);
+      fsType = "cifs";
+      options = let
+        # this line prevents hanging on network split
+        automount_opts = "x-systemd.automount,noauto,nofail,x-systemd.idle-timeout=5,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user_opts = "uid=1000,gid=1001";
+        smbcredentials_path = (builtins.readFile ./nixos-config-private/fileSystems_NAS_options_smbcredentials_path);
+      in ["${automount_opts},${user_opts},credentials=${smbcredentials_path},iocharset=utf8"];
+  };
 
 }
