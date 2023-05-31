@@ -216,5 +216,20 @@ in
         smbcredentials_path = (builtins.readFile ./nixos-config-private/fileSystems_NAS_options_smbcredentials_path);
       in ["${automount_opts},${user_opts},credentials=${smbcredentials_path},iocharset=utf8"];
   };
+  
+  # Enable podman
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings = {
+        dns_enabled = true;
+      };
+    };
+  };
 
 }
