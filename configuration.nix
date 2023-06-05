@@ -110,7 +110,7 @@ in
   users.users.vriess = {
     isNormalUser = true;
     description = "Valentin Riess";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" ];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -199,7 +199,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
   # Set different path that alllows for easy edits using vscode
   # original: nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels
@@ -211,7 +211,7 @@ in
       fsType = "cifs";
       options = let
         # this line prevents hanging on network split
-        automount_opts = "x-systemd.automount,noauto,nofail,x-systemd.idle-timeout=5,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        automount_opts = "x-systemd.automount,noauto,nofail,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
         user_opts = "uid=1000,gid=1001";
         smbcredentials_path = (builtins.readFile ./nixos-config-private/fileSystems_NAS_options_smbcredentials_path);
       in ["${automount_opts},${user_opts},credentials=${smbcredentials_path},iocharset=utf8"];
@@ -231,5 +231,11 @@ in
       };
     };
   };
+
+  # Enable sane scanner support
+  hardware.sane.enable = true;
+
+  # Enable experimental nix-command support
+  nix.settings.experimental-features = [ "nix-command" ];
 
 }

@@ -18,7 +18,7 @@ in
 
   home-manager.users.vriess = { lib, ... }: {
     # The home.stateVersion option does not have a default and must be set
-    home.stateVersion = "22.11";
+    home.stateVersion = "23.05";
 
     # Installed packages
     home.packages = with pkgs; [ 
@@ -27,7 +27,7 @@ in
       vscode-fhs # this works better with nix and extensions
       tmux # Terminal multiplexer
       deno # JS and TS runtime
-      # google-chrome
+      google-chrome
       firefox
       gnome.dconf-editor # Dconf editor for dconf debugging
       bitwarden # Password manager
@@ -43,6 +43,11 @@ in
       gnomeExtensions.removable-drive-menu # Add removable drive menu
       unstable.gnomeExtensions.vitals # CPU, Memory, Disk stats
       # unstable.gnomeExtensions.x11-gestures # X11 touchpad gestures
+      gnomeExtensions.noannoyance-2 # Directly switches to new window instead of notification "X is ready"
+      gnomeExtensions.pingindic # Ping indicator
+      gnomeExtensions.tiling-assistant # Extended window tiling feature
+      # ulauncher # Extendable Application Launcher (broken atm)
+      localsend # Airdrop alternative
       libreoffice-still
       openssh
       rapid-photo-downloader # Photo importer
@@ -122,6 +127,8 @@ in
       	  "Vitals@CoreCoding.com"
       	  "CoverflowAltTab@palatis.blogspot.com"
       	  "drive-menu@gnome-shell-extensions.gcampax.github.com"
+          "tiling-assistant@leleat-on-github"
+          "appindicatorsupport@rgcjonas.gmail.com"
       	];
       	disabled-extensions = [
       	  "x11gestures@joseexposito.github.io"
@@ -180,7 +187,7 @@ in
 
   home-manager.users.alodahl = { lib, ... }: {
     # The home.stateVersion option does not have a default and must be set
-    home.stateVersion = "22.11";
+    home.stateVersion = "23.05";
 
     # Installed packages
     home.packages = with pkgs; [ 
