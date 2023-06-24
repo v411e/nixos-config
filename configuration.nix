@@ -8,6 +8,9 @@ let
   unstableTarball =
     fetchTarball
       https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
+  stableTarball =
+    fetchTarball
+      https://github.com/NixOS/nixpkgs/archive/nixos-23.05.tar.gz;
 in
 {
   imports =
@@ -110,7 +113,8 @@ in
   users.users.vriess = {
     isNormalUser = true;
     description = "Valentin Riess";
-    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" ];
+    # dialout for Badger2040 communication via USB
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" "dialout" ];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -151,6 +155,9 @@ in
     # Enable unstable channel as rolling release
     packageOverrides = pkgs: {
       unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+      };
+      stable = import stableTarball {
         config = config.nixpkgs.config;
       };
     };
@@ -236,6 +243,6 @@ in
   hardware.sane.enable = true;
 
   # Enable experimental nix-command support
-  nix.settings.experimental-features = [ "nix-command" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes"];
 
 }

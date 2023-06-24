@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+  # home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
 in
 {
   imports = [
@@ -50,7 +51,7 @@ in
       localsend # Airdrop alternative
       libreoffice-still
       openssh
-      rapid-photo-downloader # Photo importer
+      stable.rapid-photo-downloader # Photo importer
       rustup # Rust
       rnix-lsp # Nix language server (auto-formatting, etc.)
       solaar # Logitech unified device GUI
@@ -64,6 +65,10 @@ in
       eternal-terminal # Terminal for unstableconnections
       wireguard-tools # Wireguard tools - wg and wg-quick
       samba # smbclient
+      ansible # Configuration management
+      thonny # Python IDE for Badger2040
+      nodejs # NodeJS
+      yarn # yarn
     ];
 
     # GNOME settings
