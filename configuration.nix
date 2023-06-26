@@ -114,7 +114,8 @@ in
     isNormalUser = true;
     description = "Valentin Riess";
     # dialout for Badger2040 communication via USB
-    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" "dialout" ];
+    # uinput for weylus
+    extraGroups = [ "networkmanager" "wheel" "scanner" "lp" "dialout" "uinput"];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -198,7 +199,7 @@ in
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -244,5 +245,10 @@ in
 
   # Enable experimental nix-command support
   nix.settings.experimental-features = [ "nix-command" "flakes"];
+
+  # Add udev rule for weylus
+  services.udev.extraRules = ''
+    KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+  '';
 
 }

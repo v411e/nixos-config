@@ -69,6 +69,8 @@ in
       thonny # Python IDE for Badger2040
       nodejs # NodeJS
       yarn # yarn
+      weylus # ipad drawing tablet
+      xournalpp # PDF annotations
     ];
 
     # GNOME settings
@@ -187,6 +189,9 @@ in
       enable = true;
       userName = (builtins.readFile ./nixos-config-private/home-manager_users_vriess_programs_git_userName);
       userEmail = (builtins.readFile ./nixos-config-private/home-manager_users_vriess_programs_git_userEmail);
+      extraConfig = {
+        init.defaultBranch = "main";
+      };
     };
   };
 
